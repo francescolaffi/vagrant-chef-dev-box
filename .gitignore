@@ -1,0 +1,4 @@
+/.vagrant/
+/Berksfile.log
+/private-config.yml
+/data_bags/*/*.json

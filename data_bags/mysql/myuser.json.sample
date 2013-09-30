@@ -1,0 +1,10 @@
+{
+	"id": "myuser",
+	"password": "my-rand-pass",
+	"host": "localhost"
+	"dbs": {
+		"my_db": {
+			"privileges": "all",
+		}
+	}
+}

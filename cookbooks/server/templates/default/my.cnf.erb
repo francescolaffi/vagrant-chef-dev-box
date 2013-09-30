@@ -1,0 +1,57 @@
+[mysql]
+
+# CLIENT #
+port                           = <%= node['mysql']['port'] %>
+socket                         = <%= node['mysql']['socket'] %>
+
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default-storage-engine         = InnoDB
+socket                         = <%= node['mysql']['socket'] %>
+pid-file                       = <%= node['mysql']['pid_file'] %>
+
+# MyISAM #
+key-buffer-size                = 10M
+myisam-recover                 = FORCE,BACKUP
+skip-external-locking
+
+# SAFETY #
+max-allowed-packet             = 1M
+max-connect-errors             = 1000000
+skip-name-resolve
+
+# DATA STORAGE #
+datadir                        = /var/lib/mysql/
+
+# BINARY LOGGING #
+# log-bin                        = /var/lib/mysql/mysql-bin
+# expire-logs-days               = 14
+# sync-binlog                    = 1
+
+# CACHES AND LIMITS #
+tmp-table-size                 = 40M
+max-heap-table-size            = 40M
+query-cache-type               = 1
+query-cache-size               = 8388608 #8M
+max-connections                = 10
+table-open-cache               = 200
+table-definition-cache         = 200
+open-files-limit               = 500
+thread-cache-size              = 50
+
+# INNODB #
+innodb-flush-method            = O_DIRECT
+innodb-log-files-in-group      = 2
+innodb-log-file-size           = 16M
+innodb-flush-log-at-trx-commit = 2
+innodb-file-per-table          = 1
+innodb-buffer-pool-size        = 64M
+
+# LOGGING #
+log-error                      = /var/lib/mysql/mysql-error.log
+log-queries-not-using-indexes  = 1
+slow-query-log                 = 1
+slow-query-log-file            = /var/lib/mysql/mysql-slow.log

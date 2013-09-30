@@ -1,0 +1,25 @@
+hostname: example.com
+
+ssh:
+  username: my_user
+  private_key_path: ~/.ssh/example_id_rsa
+
+digital_ocean:
+  client_id: from d.o.
+  api_key: from d.o.
+
+chef:
+  mysql:
+    server_root_password: random
+    server_repl_password: random
+    server_debian_password: random
+  admin_host: admin.example.org
+  xcache_pass: random
+  newrelic:
+    server_monitoring:
+      license: from n.r.
+    application_monitoring:
+      license: from n.r.
+  postfix_virtual_map: |
+    example.com VIRTUAL
+    @example.com myself@gmail.com

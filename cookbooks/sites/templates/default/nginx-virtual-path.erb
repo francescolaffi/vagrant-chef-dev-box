@@ -1,0 +1,23 @@
+server {
+    listen       80;
+    server_name  <%= @host %>;
+
+    index index.php;
+    client_max_body_size 20m;
+
+    deny all;
+    <%- @paths.each do |name, path| %>
+
+    location /<%= name %>/ {
+        allow all;
+        alias <%= path %>;
+        access_log  <%= node['nginx']['log_dir'] %>/<%= name %>-access.log;
+        error_log   <%= node['nginx']['log_dir'] %>/<%= name %>-error.log;
+
+        location ~ \.php$ {
+            include fastcgi_params;
+            fastcgi_pass unix:<%= node['php-fpm']['pool']['www']['listen'] %>;
+        }
+    }
+    <% end -%>
+}

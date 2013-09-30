@@ -1,0 +1,6 @@
+https://github.com/opscode-cookbooks/chef-client
+unattended upgrades
+
+try files in nginx virtual path
+
+sites::default

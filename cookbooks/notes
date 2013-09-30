@@ -1,0 +1,33 @@
+
+execute 'replace or append' do
+  search  = '^MYVAR=.*'
+  replace = "MYVAR=#{myvar}"
+  file = 'conf file'
+  command <<-SH
+    grep -q '#{search}' #{file} \
+      && sed -i 's|#{search}|#{replace}|' #{file} \
+      || echo '#{replace}' >>#{file}
+  SH
+  not_if "grep -q --line-regexp --fixed-strings '#{replace}' #{file}"
+end
+
+
+
+# php_ext_conf_dir = node['php']['ext_conf_dir']
+# fpm_ext_conf_dir = "#{node['php-fpm']['conf_dir']}/conf.d"
+
+# execute 'php-fpm conf.d clean dead links' do
+#   command "find #{fpm_ext_conf_dir} -type l -xtype l -exec rm {} +"
+#   only_if "test -n $(find #{fpm_ext_conf_dir} -type l -xtype l)"
+#   notifies :reload, 'service[php-fpm]', :delayed
+# end
+
+# execute 'php-fpm conf.d sync missing links' do
+#   command "ln -s --force #{php_ext_conf_dir}/* #{fpm_ext_conf_dir}"
+#   only_if do
+#     targets = Dir["#{php_ext_conf_dir}/*"]
+#     linked  = Dir["#{fpm_ext_conf_dir}/*"].select{ |f| File.symlink? f }.map{ |f| File.readlink f }
+#     !(targets-linked).empty?
+#   end
+#   notifies :reload, 'service[php-fpm]', :delayed
+# end

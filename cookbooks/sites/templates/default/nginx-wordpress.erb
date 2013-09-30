@@ -1,0 +1,27 @@
+server {
+    listen       80;
+    server_name  <%= @host %>;
+    root         <%= @dir %>/public;
+    access_log   <%= @dir %>/logs/access.log;
+    error_log    <%= @dir %>/logs/error.log;
+
+    index index.php;
+    client_max_body_size 20m;
+
+    include <%= @dir %>/nginx.conf;
+
+    try_files $uri $uri/ /index.php?$args;
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_pass unix:<%= node['php-fpm']['pool']['www']['listen'] %>;
+    }
+}
+
+<%- if @redir -%>
+server {
+    server_name <%= @redir %>;
+    return 301 $scheme://<%= @host.split(' ')[0] %>$request_uri;
+}
+<%- end -%>

@@ -8,9 +8,13 @@ server {
     index index.php;
     client_max_body_size 20m;
 
-    include <%= @dir %>/nginx.conf;
+    # w3tc rules
+    include <%= @dir %>/nginx*.conf;
 
-    try_files $uri $uri/ /index.php?$args;
+    location / {
+        index index.php;
+        try_files $uri $uri/ /index.php?$args;
+    }
 
     location ~ \.php$ {
         try_files $uri =404;
@@ -18,6 +22,32 @@ server {
         fastcgi_pass unix:<%= node['php-fpm']['pool']['www']['listen'] %>;
     }
 }
+
+<%- if @static_host -%>
+server {
+    listen       80;
+    server_name  <%= @static_host %>;
+    root         <%= @dir %>/public;
+    access_log   <%= @dir %>/logs/access.log;
+    error_log    <%= @dir %>/logs/error.log;
+
+    include <%= @dir %>/nginx.conf;
+
+    if ($w3tc_rewrite = 1) {
+        return 404;
+    }
+
+    location ^~ /wp-content/plugins/w3-total-cache/pub/minify.php {
+        try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_pass unix:<%= node['php-fpm']['pool']['www']['listen'] %>;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+}
+<%- end -%>
 
 <%- if @redir -%>
 server {

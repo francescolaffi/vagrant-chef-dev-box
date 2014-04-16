@@ -3,7 +3,7 @@ include_recipe 'sites::services_admin'
 include_recipe 'sites::mysql_users_dbs'
 
 directory '/srv/www' do
-  owner 'root'
+  owner 'www-data'
   group 'www-data'
   mode 02755
   recursive true
@@ -20,3 +20,4 @@ group 'www-data' do
 end
 
 include_recipe 'sites::wordpress'
+include_recipe 'sites::ghost'

@@ -1,4 +1,4 @@
-node.default['nginx']['worker_processes'] = 2
+node.default['nginx']['worker_processes'] = 1
 node.default['nginx']['default_site_enabled'] = false
 
 apt_repository 'nginx' do
@@ -20,7 +20,6 @@ server {
   deny all;
 }
   CONF
-  backup   false
   notifies :reload, 'service[nginx]', :delayed
 end
 

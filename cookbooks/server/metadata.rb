@@ -12,9 +12,7 @@ depends 'php-fpm'
 
 depends 'rbenv'
 
-depends 'nodejs'
 depends 'npm'
-depends 'forever'
 
 depends 'mysql'
 depends 'phpmyadmin'

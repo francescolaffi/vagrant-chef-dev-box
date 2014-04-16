@@ -6,8 +6,6 @@ data_bag('wordpress').each do |id|
   site['host'] ||= site['name']
   site['dir']  ||= "/srv/www/#{site['name']}"
 
-  Chef::Log.info(site.inspect)
-
   %W(#{site['dir']} #{site['dir']}/public #{site['dir']}/logs)
   .each do |dir|
     directory dir do

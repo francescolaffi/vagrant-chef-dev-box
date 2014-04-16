@@ -7,3 +7,12 @@ apt_repository 'nodejs' do
 end
 
 package 'nodejs'
+
+#npm_package 'forever'
+
+# directory '/srv/www/.forever' do
+#   owner 'www-data'
+#   group 'www-data'
+#   mode 02755
+#   recursive true
+# end
